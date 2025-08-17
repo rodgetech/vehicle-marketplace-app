@@ -35,16 +35,28 @@ export const getListings = query({
       listings = listings.filter(listing => listing.price <= args.maxPrice!);
     }
 
-    // Get seller info for each listing
+    // Get seller info and file URLs for each listing
     const listingsWithSellers = await Promise.all(
       listings.map(async (listing) => {
         const seller = await ctx.db.get(listing.userId);
+        
+        // Get photo URLs
+        const photoUrls = await Promise.all(
+          listing.photos.map(async (photoId) => await ctx.storage.getUrl(photoId))
+        );
+        
+        // Get cold start video URL if exists
+        const coldStartVideoUrl = listing.coldStartVideo 
+          ? await ctx.storage.getUrl(listing.coldStartVideo)
+          : null;
         
         // Calculate ranking score (simplified version of PRD algorithm)
         const listingScore = calculateListingScore(listing, seller?.reputation || 0);
         
         return {
           ...listing,
+          photoUrls, // Add resolved photo URLs
+          coldStartVideoUrl, // Add resolved video URL
           seller: seller ? {
             _id: seller._id,
             name: seller.name,
@@ -92,6 +104,16 @@ export const getListing = query({
     // Get seller info
     const seller = await ctx.db.get(listing.userId);
     
+    // Get photo URLs
+    const photoUrls = await Promise.all(
+      listing.photos.map(async (photoId) => await ctx.storage.getUrl(photoId))
+    );
+    
+    // Get cold start video URL if exists
+    const coldStartVideoUrl = listing.coldStartVideo 
+      ? await ctx.storage.getUrl(listing.coldStartVideo)
+      : null;
+    
     // Get reviews for this listing
     const reviews = await ctx.db
       .query("reviews")
@@ -100,6 +122,8 @@ export const getListing = query({
 
     return {
       ...listing,
+      photoUrls, // Add resolved photo URLs
+      coldStartVideoUrl, // Add resolved video URL
       seller: seller ? {
         _id: seller._id,
         name: seller.name,
@@ -148,8 +172,8 @@ export const createListing = mutation({
     district: v.string(),
     knownIssues: v.array(v.string()),
     hasNoKnownIssues: v.boolean(),
-    photos: v.array(v.string()),
-    coldStartVideo: v.optional(v.string()),
+    photos: v.array(v.id("_storage")),
+    coldStartVideo: v.optional(v.id("_storage")),
     vin: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -212,11 +236,11 @@ export const createListing = mutation({
 
 // Helper function to calculate listing completeness score (0-100)
 function calculateCompletenessScore(data: {
-  photos: string[];
+  photos: any[];
   knownIssues: string[];
   hasNoKnownIssues: boolean;
   vin?: string;
-  coldStartVideo?: string;
+  coldStartVideo?: any;
   importedFromUS: boolean;
 }): number {
   let score = 0;

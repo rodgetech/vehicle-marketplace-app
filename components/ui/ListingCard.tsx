@@ -14,7 +14,8 @@ interface ListingCardProps {
     mileage: number;
     transmission: string;
     district: string;
-    photos: string[];
+    photos: string[]; // File IDs
+    photoUrls: string[]; // Resolved URLs
     seller?: {
       name: string;
       reputation: number;
@@ -33,7 +34,8 @@ export default function ListingCard({ listing, onPress }: ListingCardProps) {
   };
 
   const getMainPhoto = () => {
-    return listing.photos[0] || 'https://via.placeholder.com/300x200?text=No+Photo';
+    // Use photoUrls (resolved URLs) instead of photos (file IDs)
+    return listing.photoUrls?.[0] || 'https://via.placeholder.com/300x200?text=No+Photo';
   };
 
   return (

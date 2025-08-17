@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, Pressable } from 'react-native';
+import { Search, SlidersHorizontal } from 'lucide-react-native';
 
 interface SearchBarProps {
   value: string;
@@ -15,11 +16,11 @@ export default function SearchBar({
   onFilterPress 
 }: SearchBarProps) {
   return (
-    <View className="flex-row items-center space-x-3 mb-4">
-      <View className="flex-1 flex-row items-center input-base">
+    <View className="mb-4">
+      <View className="flex-row items-center input-base">
         {/* Search Icon */}
         <View className="mr-3">
-          <View className="w-5 h-5 rounded-full border-2 border-text-muted" />
+          <Search size={20} color="#737373" />
         </View>
         
         <TextInput
@@ -31,22 +32,21 @@ export default function SearchBar({
           autoCorrect={false}
           autoCapitalize="none"
         />
+        
+        {/* Filter Button - Integrated */}
+        {onFilterPress && (
+          <>
+            {/* Divider */}
+            <View className="w-px h-6 bg-neutral-200 mx-3" />
+            <Pressable 
+              className="p-2 rounded-lg"
+              onPress={onFilterPress}
+            >
+              <SlidersHorizontal size={20} color="#737373" />
+            </Pressable>
+          </>
+        )}
       </View>
-      
-      {/* Filter Button */}
-      {onFilterPress && (
-        <Pressable 
-          className="w-12 h-12 bg-belize-blue rounded-xl items-center justify-center"
-          onPress={onFilterPress}
-        >
-          {/* Filter Icon - simplified */}
-          <View className="space-y-1">
-            <View className="w-4 h-0.5 bg-white" />
-            <View className="w-3 h-0.5 bg-white" />
-            <View className="w-4 h-0.5 bg-white" />
-          </View>
-        </Pressable>
-      )}
     </View>
   );
 }

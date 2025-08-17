@@ -43,9 +43,9 @@ export default defineSchema({
     hasNoKnownIssues: v.boolean(),
     
     // Media
-    photos: v.array(v.string()), // URLs to photos
+    photos: v.array(v.id("_storage")), // File IDs for photos stored in Convex
     hasRequiredPhotos: v.boolean(),
-    coldStartVideo: v.optional(v.string()),
+    coldStartVideo: v.optional(v.id("_storage")), // File ID for cold start video
     
     // VIN (optional for now)
     vin: v.optional(v.string()),
@@ -87,7 +87,7 @@ export default defineSchema({
     meetupVerified: v.boolean(), // only verified meetups can review
     
     // Evidence
-    evidencePhoto: v.optional(v.string()),
+    evidencePhoto: v.optional(v.id("_storage")), // File ID for evidence photo
     
     // Moderation
     isUpheld: v.optional(v.boolean()),
