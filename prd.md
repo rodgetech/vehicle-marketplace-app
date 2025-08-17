@@ -52,7 +52,22 @@ Filters: Title Type, Price range (BZD), Mileage, Transmission, District, Importe
 - **Meetup Verified**: Seller shows in-app QR; Buyer scans → can now rate. (Only meetup-verified buyers can rate in MVP.)
 - **Seller Reputation** (0–100): last 90 days weighted by verified meetups, upheld omission flags, response rate, completion of required fields across listings. Old feedback decays.
 
-### 6.4 Ranking (Feed Ordering)
+### 6.4 Buyer Sentiment on Listings
+
+- **Overview**: Buyers can leave quick feedback on a listing’s perceived value or completeness.
+- **Input Options**:
+  - 👍 “Good price”
+  - 💸 “Too expensive”
+  - 🤔 “Needs more info”
+  - Optional short note (≤ 50 chars).
+- **Display**: Aggregate counts shown publicly on the listing (e.g., “12 say good price · 5 say too expensive”). Tap to expand and view top short notes.
+- **Rules**:
+  - One sentiment per user per listing (can update).
+  - Requires viewing listing details first.
+  - Optional anonymous toggle (identity always logged internally).
+- **Future Impact**: Listings with overwhelming negative sentiment may be down-ranked or flagged to seller to adjust price/details.
+
+### 6.5 Ranking (Feed Ordering)
 
 ```
 ListingScore = 0.50 * ListingCompleteness
@@ -64,28 +79,28 @@ ListingScore = 0.50 * ListingCompleteness
 
 **Penalties:** upheld omission flags, VIN mismatch (seller marked Clean, report shows Salvage/Rebuilt), excessive no-shows. Low-score listings are still discoverable via filters but appear later (“back of the queue”).
 
-### 6.5 Messaging
+### 6.6 Messaging
 
 - In-app chat with quick prompts: “Is this salvage/clean?”, “Any oil leaks?”, “Last service date?”, “Cold-start video?”
 - Optional link-out to WhatsApp (opens prefilled template); keep primary messaging in-app for auditability.
 
-### 6.6 VIN & Recalls (Phaseable)
+### 6.7 VIN & Recalls (Phaseable)
 
 - **Phase 1 (Free)**: NHTSA vPIC decode + recall lookup (if available) to enrich specs and show recall advisories.
 - **Phase 2 (Paid)**: Integrate one NMVTIS provider (e.g., ClearVin/VinAudit) server-to-server for title brands (salvage, rebuilt, flood), theft, odometer, lien data. Seller/Buyer can purchase a report; show summarized badges.
 
-### 6.7 Moderation & Safety
+### 6.8 Moderation & Safety
 
 - Review queue for “omitted issue” flags: moderator can Uphold/Dismiss/Request Amendment. If upheld, seller must amend listing; failure triggers down-rank + posting cooldown (48–72h).
 - **Rate limits** on reviews/flags per account/IP/day. Phone verification to post listings.
 - **Content policy**: allow factual claims; block insults/defamation; limit review text to 140 chars + presets.
 
-### 6.8 Notifications
+### 6.9 Notifications
 
 - Push: new message, meetup scheduled, amendment requested, saved-search match.
 - Email/SMS fallback (optional) for critical events.
 
-### 6.9 Admin/Moderator Tools (MVP-light)
+### 6.10 Admin/Moderator Tools (MVP-light)
 
 - Dashboard: listing details, VIN results (if any), history of flags, media gallery, decision log, action buttons.
 

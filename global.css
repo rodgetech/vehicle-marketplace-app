@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utility classes for the Belize Car Marketplace */
+@layer components {
+  /* Button variants */
+  .btn-primary {
+    @apply h-button px-4 rounded-xl items-center justify-center bg-belize-blue active:bg-belize-blue-dark;
+  }
+  
+  .btn-secondary {
+    @apply h-button px-4 rounded-xl items-center justify-center bg-neutral-100 border border-neutral-200 active:bg-neutral-200;
+  }
+  
+  .btn-danger {
+    @apply h-button px-4 rounded-xl items-center justify-center bg-flag-red active:bg-flag-red-dark;
+  }
+  
+  /* Input styles */
+  .input-base {
+    @apply h-input px-4 rounded-xl bg-neutral-100 border border-neutral-200 text-text-primary;
+  }
+  
+  .input-focused {
+    @apply border-belize-blue;
+  }
+  
+  .input-error {
+    @apply border-flag-red;
+  }
+  
+  /* Card styles */
+  .card-base {
+    @apply rounded-xl bg-white border border-neutral-200 shadow-card;
+  }
+  
+  /* Title badges */
+  .badge-clean {
+    @apply px-2 py-1 rounded-pill bg-chip-clean text-white text-label font-medium;
+  }
+  
+  .badge-salvage {
+    @apply px-2 py-1 rounded-pill bg-chip-salvage text-white text-label font-medium;
+  }
+  
+  .badge-rebuilt {
+    @apply px-2 py-1 rounded-pill bg-chip-rebuilt text-white text-label font-medium;
+  }
+  
+  /* Text styles */
+  .text-display {
+    @apply text-[28px] leading-[32px] font-semibold;
+  }
+  
+  .text-h1 {
+    @apply text-[24px] leading-[28px] font-semibold;
+  }
+  
+  .text-h2 {
+    @apply text-[20px] leading-[24px] font-semibold;
+  }
+  
+  .text-body {
+    @apply text-[16px] leading-[22px];
+  }
+  
+  .text-caption {
+    @apply text-[13px] leading-[18px];
+  }
+  
+  .text-label {
+    @apply text-[12px] leading-[16px] font-medium;
+  }
+}
